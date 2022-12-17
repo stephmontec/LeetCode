@@ -23,15 +23,15 @@ public class DisappearingNumbersInAnArray {
 
         for(int i = 0; i < nums.length; i++) {
             int index = Math.abs(nums[i]) - 1; // subtract one to apply 0-based array indexing
-            if(nums[index] > 0) {
+
+            if(nums[index] > 0)
                 nums[index] = -nums[index]; // marking the elements that are present with a negative sign
-            }
         }
 
         // after iterating through entire array and marking, find remaining positive numbers
         for(int i = 0; i < nums.length; i++) {
-            if(nums[i] > 0) // if positive
-                result.add(i + 1);
+            if(nums[i] > 0) // if number is positive
+                result.add(i + 1); // revert to [1,n] by adding 1 to the index
         }
         return result;
     }
