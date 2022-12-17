@@ -14,36 +14,18 @@ public class FindPivotIndex {
     }
 
     public static int solution1(int[] nums) {
-        int pivot = nums.length / 2; // midpoint of array
+        int pivot = -1; // default pivot
+        int leftSum = 0; // current left sum
+        int rightSum = 0; // current right sum
 
-        while(pivot > 0) {
-            int leftSum = 0; int rightSum = 0; // current left and right sums
-            int leftPointer, rightPointer;
+        for (int num : nums) rightSum += num; // right sum will temporarily be the total sum of all elements
 
-            for(leftPointer = 0; leftPointer < pivot; leftPointer++) {
-                leftSum += nums[leftPointer]; // accumulate to left sum
-            }
+        for(int i = 0; i < nums.length; i++) {
+            rightSum = rightSum - nums[i]; // decreasing right sum
 
-            for(rightPointer = nums.length - 1; rightPointer > pivot; rightPointer--)
-                rightSum += nums[rightPointer]; // accumulate to right sum
+            if(leftSum == rightSum) return i; // if equal sums, return current i
 
-            if(leftSum == rightSum) break; // if sums are equal, break out of loop and return pivot
-
-            pivot--;
-        }
-
-        if(pivot == 0) {
-            int leftSum = 0;  // reset left sum
-            int rightSum = 0; // reset right sum
-
-            // find total right sum only. if pivot is first element, then there are no elements to the left (i.e., left sum will be zero)
-            for(int rightPointer = nums.length - 1; rightPointer > pivot; rightPointer--)
-                rightSum += nums[rightPointer];
-
-            if(leftSum == rightSum)
-                return 0; // if both sums are equal (0 = 0), then return 0 to indicate the pivot index is nums[0]
-            else
-                return -1; // else, if they are still not equal, then we have checked all leftmost indexes and no pivot was found (-1)
+            leftSum = leftSum + nums[i]; // increasing left sum
         }
         return pivot;
     }
